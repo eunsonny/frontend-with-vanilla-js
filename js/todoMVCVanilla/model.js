@@ -1,32 +1,36 @@
-class List {
+class Item {
+  constructor(value) {
+    this.id = model.list.length;
+    this.content = value;
+    this.checked = false;
+  }
+}
+class Model {
   constructor() {
-    this.list = []
+    this.list = [
+      { content: '세수하기', checked: false },
+      { content: '이 닦기', checked: false },
+    ]
   }
 
-  addItem(item) {
-    this.list.push(item);
+  addItemData(value) {
+    let newItem = new Item(value);
+    this.list.push(newItem);
   }
 
-  removeItem(itemIndex) {
+  removeItemData(itemIndex) {
     this.list.splice(itemIndex, 1);
   }
 
-  editItem(item, itemIndex) {
+  editItemData(item, itemIndex) {
     this.splice(itemIndex, 1, item);
   }
 
   checkItem(itemIndex) {
-    this.list[itemIndex].cheched = true;
+    this.list[itemIndex].checked = true;
   }
 }
 
-class Item {
-  constructor(content) {
-    this.content = content;
-    this.checked = false;
-  }
-}
+const model = new Model();
 
-export {
-  
-}
+export default model;

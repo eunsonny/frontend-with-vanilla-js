@@ -10,9 +10,8 @@ const init = async () => {
 
   view.renderList(model.list);
   addButton.addEventListener('click', controller.addItem);
-  // for (let i = 0; i < deleteButtons.length; i++) {
-  //   deleteButtons[i].addEventListener('click', controller.deleteItem);
-  // }
+  console.log('inti')
+
   // console.log(deleteButtons)
 
 };

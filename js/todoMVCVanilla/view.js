@@ -1,7 +1,4 @@
-const renderList = (list) => {
-  const toDoList = document.getElementById("toDoList");
-  toDoList.innerHTML = makeItemElement({ content: '테스트' })
-}
+
 
 const makeItemElement = (item) => {
   return `<li>
@@ -16,21 +13,28 @@ class View {
     this.toDoList = document.getElementById("toDoList");
   }
 
+  
   renderList(list) {
     // const toDoList = document.getElementById("toDoList");
     const listItems = list.map((item) => makeItemElement(item));
     
     const listComponent = listItems.reduce((prev, curr) => prev + curr, '');
     toDoList.innerHTML = listComponent;
+    
+    // const deleteButtons = document.getElementsByClassName('delete_button');
+    
+    // for (let i = 0; i < deleteButtons.length; i++) {
+    //   deleteButtons[i].addEventListener('click', controller.deleteItem);
+    // }
   }
-
-  makeItemElement(item) {
-    return `<li>
-  <input type="checkbox" />
-  ${item.content}
-  <button id="${item.id}" class="delete_button">삭제</button>
-</li>`
-  }
+  
+    makeItemElement(item) {
+      return `<li>
+    <input type="checkbox" />
+    ${item.content}
+    <button id="${item.id}" class="delete_button">삭제</button>
+  </li>`
+    }
 
   getInputValue() {
     const input = document.querySelector('input');
@@ -38,8 +42,17 @@ class View {
     return input.value;
   }
 
+  addItem(item) {
+    let newItem = `<li>
+    <input type="checkbox" />
+    ${item.content}
+    <button id="${item.id}" class="delete_button">삭제</button>
+  </li>`;
+    toDoList.appendChild(newItem);
+  }
+
   deleteItem() {
-    
+
   }
 }
 

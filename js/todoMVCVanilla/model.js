@@ -1,6 +1,6 @@
 class Item {
   constructor(value) {
-    this.id = model.list.length;
+    this.id = `item${model.list.length}`;
     this.content = value;
     this.checked = false;
   }

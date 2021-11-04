@@ -7,19 +7,34 @@ class Controller {
     this.view = view;
   }
 
+  // setListEvent = () => {
+  //   let newItem = document.getElementById(`list${model.list.length - 1}`)
+  //   console.log(newItem)
+  //   newItem.addEventListener('click', this.deleteItem)
+  // }
+
   async addItem () {
     let value = view.getInputValue();
     await model.addItemData(value);
-    return view.renderList(model.list);
+    view.renderList(model.list);
+    // view.addItem(model.list[model.list.length-1]);
+    this.setListEvent();
   }
 
   async deleteItem(e) {
+    console.log('asdfas')
     let itemId = e.target.id;
     await model.removeItemData(itemId);
-    return view.renderList(model.list)
+    return view.renderList(model.list);
+  }
+
+  setListEvent = () => {
+    let newItem = document.getElementById(`list${model.list.length - 1}`)
+    console.log(newItem)
+    newItem.addEventListener('click', this.deleteItem)
   }
 }
 
 const controller = new Controller(model, view);
 
-export default controller
+export default controller;

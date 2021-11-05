@@ -8,32 +8,45 @@ class Item {
 
 class Model {
   constructor() {
-    this.list = [
-      { id: 1, content: '세수하기', checked: false },
-      { id: 2, content: '이 닦기', checked: false },
-    ]
+    this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+    // [
+      // { id: 1, content: '세수하기', checked: false },
+      // { id: 2, content: '이 닦기', checked: false },
+    // ]
   }
 
   addItemData(value) {
     let newItem = new Item(value);
-    this.list.push(newItem);
+    this.todos.push(newItem);
   }
 
   editItemData(id, updatedText) {
-    this.list = this.list.map((item) =>
+    this.todos = this.todos.map((item) =>
       item.id === id ? { id: item.id, content: updatedText, checked: item.checked } : item
     )
   }
 
   deleteItemData(id) {
-    this.list = this.list.filter((item) => item.id !== id);
+    this.todos = this.todos.filter((item) => item.id !== id);
+
+    // this.onTodoListChanged(this.todos)
+    this._commit(this.todos)
   }
 
   toggleItem(id) {
-    this.list[id].checked = !this.list[id].checked
+    this.todos[id].checked = !this.todos[id].checked
     // this.list = this.list.map((item) =>
     //   item.id === id ? { id: item.id, content: item.content, checked: !item.checked } : item
     // )
+  }
+
+  bindTodoListChanged(callback) {
+    this.onTodoListChanged = callback
+  }
+
+  _commit(todos) {
+    this.onTodoListChanged(todos);
+    localStorage.setItem('todos', JSON.stringify(todos))
   }
 }
 

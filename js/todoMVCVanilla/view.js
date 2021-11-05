@@ -32,7 +32,7 @@ class View {
 
   createElement(tag, className) {
     const element = document.createElement(tag);
-    if (className) element.className.add(className);
+    if (className) element.classList.add(className);
 
     return element;
   }
@@ -61,7 +61,7 @@ class View {
       p.textContent = "Nothing to do! Add a task?";
       this.todoList.append(p);
     } else {
-      todos.foreach((todo) => {
+      todos.forEach((todo) => {
         const li = this.createElement("li");
         li.id = todo.id;
 
@@ -71,7 +71,7 @@ class View {
 
         const span = this.createElement('span');
         span.contentEditable = true;
-        span.className.add('editable')
+        span.classList.add('editable')
 
         if (todo.checked) {
           const strike = this.createElement('s');
@@ -89,6 +89,37 @@ class View {
       });
     }
   }
+
+  bindAddTodo = (handler) => {
+    this.form.addEventListner('submit', event => {
+      event.preventDefault();
+
+      if (this._todoText) {
+        handler(this._todoText);
+        this._resetInput()
+      }
+    })
+  }
+
+  bindDeleteTodo = (handler) => {
+    this.deleteButton.addEventListner('click', event => {
+      if (event.target.className === 'delete') {
+        const id = parseInt(event.target.parentElement.id)
+        handler(id)
+      }
+    })
+  }
+
+  bindToggleTodo = (handler) => {
+    this.todoList.addEventListner('change', event => {
+      if (event.target.type === 'checkbox') {
+        const id = parseInt(event.target.parentElement.id)
+
+        handler(id)
+      }
+    })
+  }
+
 }
 
 const view = new View();

@@ -5,33 +5,34 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+
+    this.onTodoListChanged(this.model.todos);
+
+    this.view.bindAddTodo(this.handleAddTodo);
+    this.view.bindDeleteTodo(this.handleDeleteTodo);
+    this.view.bindToggleTodo(this.handleToggleTodo);
+
+    this.model.bindTodoListChanged(this.onTodoListChanged)
   }
 
-  // setListEvent = () => {
-  //   let newItem = document.getElementById(`list${model.list.length - 1}`)
-  //   console.log(newItem)
-  //   newItem.addEventListener('click', this.deleteItem)
-  // }
-
-  async addItem () {
-    let value = view.getInputValue();
-    await model.addItemData(value);
-    view.renderList(model.list);
-    // view.addItem(model.list[model.list.length-1]);
-    this.setListEvent();
+  onTodoListChanged = (todos) => {
+    this.view.renderTodos(todos);
   }
 
-  async deleteItem(e) {
-    console.log('asdfas')
-    let itemId = e.target.id;
-    await model.removeItemData(itemId);
-    return view.renderList(model.list);
+  handleAddTodo = (todoText) => {
+    this.model.addItemData(todoText);
   }
 
-  setListEvent = () => {
-    let newItem = document.getElementById(`list${model.list.length - 1}`)
-    console.log(newItem)
-    newItem.addEventListener('click', this.deleteItem)
+  handleEditTodo = (id, todoText) => {
+    this.model.editItemData(id, todoText);
+  }
+
+  handleDeleteTodo = (id) => {
+    this.model.deleteItemData(id);
+  }
+
+  handleToggleTodo = (id) => {
+    this.model.toggleItem(id);
   }
 }
 

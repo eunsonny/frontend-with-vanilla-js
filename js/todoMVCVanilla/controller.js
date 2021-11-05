@@ -12,7 +12,8 @@ class Controller {
     this.view.bindDeleteTodo(this.handleDeleteTodo);
     this.view.bindToggleTodo(this.handleToggleTodo);
 
-    this.model.bindTodoListChanged(this.onTodoListChanged)
+    this.model.bindTodoListChanged(this.onTodoListChanged);
+    this.view.bindEditTodo(this.handleEditTodo);
   }
 
   onTodoListChanged = (todos) => {
@@ -20,6 +21,7 @@ class Controller {
   }
 
   handleAddTodo = (todoText) => {
+    console.log(todoText)
     this.model.addItemData(todoText);
   }
 

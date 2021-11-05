@@ -28,6 +28,28 @@ class View {
     this.form.append(this.input, this.submitButton);
 
     this.app.append(this.title, this.form, this.todoList);
+
+    this._temporaryTodoText
+    this._initLocalListeners()
+  }
+
+  _initLocalListeners() {
+    this.todoList.addEventListener('input', event => {
+      if (event.target.className === 'editable') {
+        this._temporaryTodoText = event.target.innerText
+      }
+    })
+  }
+
+  bindEditTodo(handler) {
+    this.todoList.addEventListener('focusout', event => {
+      if (this._temporaryTodoText) {
+        const id = parseInt(event.target.parentElement.id)
+
+        handler(id, this._temporaryTodoText)
+        this._temporaryTodoText = '';
+      }
+    })
   }
 
   createElement(tag, className) {
@@ -52,6 +74,7 @@ class View {
   }
 
   renderTodos(todos) {
+    console.log('check')
     while (this.todoList.firstChild) {
       this.todoList.removeChild(this.todoList.firstChild);
     }
@@ -91,7 +114,7 @@ class View {
   }
 
   bindAddTodo = (handler) => {
-    this.form.addEventListner('submit', event => {
+    this.form.addEventListener('submit', event => {
       event.preventDefault();
 
       if (this._todoText) {
@@ -102,7 +125,7 @@ class View {
   }
 
   bindDeleteTodo = (handler) => {
-    this.deleteButton.addEventListner('click', event => {
+    this.todoList.addEventListener('click', event => {
       if (event.target.className === 'delete') {
         const id = parseInt(event.target.parentElement.id)
         handler(id)
@@ -111,7 +134,7 @@ class View {
   }
 
   bindToggleTodo = (handler) => {
-    this.todoList.addEventListner('change', event => {
+    this.todoList.addEventListener('change', event => {
       if (event.target.type === 'checkbox') {
         const id = parseInt(event.target.parentElement.id)
 

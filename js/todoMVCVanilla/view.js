@@ -70,7 +70,7 @@ class View {
   }
 
   _resetInput() {
-    this.input.value;
+    this.input.value = '';
   }
 
   renderTodos(todos) {

@@ -1,27 +1,21 @@
-const makeItemElement = (item) => {
-  return `<li>
-  <input type="checkbox" />
-  ${item.content}
-  <button>삭제</button>
-</li>`;
-};
-
 class View {
   constructor() {
     this.app = this.getElement("#root");
 
     this.title = this.createElement("h1");
-    this.title.textContent = "Todos";
+    this.title.textContent = "TODO LIST";
 
     this.form = this.createElement("form");
 
     this.input = this.createElement("input");
     this.input.type = "text";
-    this.input.placeholder = "add Todo";
+    this.input.placeholder = "Add new todo";
     this.input.name = "todo";
+    this.input.id = "add_input"
 
     this.submitButton = this.createElement("button");
-    this.submitButton.textContent = "추가";
+    this.submitButton.textContent = "Add";
+    this.submitButton.className = 'submit_button'
 
     this.todoList = this.createElement("ul", "to_do_list");
 
@@ -74,7 +68,6 @@ class View {
   }
 
   renderTodos(todos) {
-    console.log('check')
     while (this.todoList.firstChild) {
       this.todoList.removeChild(this.todoList.firstChild);
     }
@@ -87,26 +80,32 @@ class View {
       todos.forEach((todo) => {
         const li = this.createElement("li");
         li.id = todo.id;
-
+        
         const checkbox = this.createElement('input');
         checkbox.type = "checkbox";
+        checkbox.id = `item${todo.id}`;
         checkbox.checked = todo.checked;
+        
+        const label = this.createElement('label');
+        label.htmlFor = `item${todo.id}`;
 
         const span = this.createElement('span');
+        span.className = 'todo_content'
         span.contentEditable = true;
         span.classList.add('editable')
 
         if (todo.checked) {
           const strike = this.createElement('s');
-          strike.textContent = todo.text;
+          strike.textContent = todo.content;
           span.append(strike)
         } else {
           span.textContent = todo.content;
         }
 
-        const deleteButton = this.createElement('button', 'delete');
+        const deleteButton = this.createElement('button', 'delete_button');
         deleteButton.textContent = '삭제';
-        li.append(checkbox, span, deleteButton)
+        deleteButton.classList.add('visible')
+        li.append(checkbox, label, span, deleteButton)
 
         this.todoList.append(li)
       });
@@ -126,7 +125,7 @@ class View {
 
   bindDeleteTodo = (handler) => {
     this.todoList.addEventListener('click', event => {
-      if (event.target.className === 'delete') {
+      if (event.target.classList[0] === 'delete_button') {
         const id = parseInt(event.target.parentElement.id)
         handler(id)
       }

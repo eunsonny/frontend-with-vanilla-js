@@ -21,7 +21,6 @@ class Controller {
   }
 
   handleAddTodo = (todoText) => {
-    console.log(todoText)
     this.model.addItemData(todoText);
   }
 
@@ -35,6 +34,7 @@ class Controller {
 
   handleToggleTodo = (id) => {
     this.model.toggleItem(id);
+    this.onTodoListChanged(this.model.todos);
   }
 }
 

@@ -8,15 +8,15 @@ class Item {
 
 class Model {
   constructor() {
-    // this.todos = JSON.parse(localStorage.getItem('todos')) || [];
-    this.todos = [];
+    this.todos = JSON.parse(localStorage.getItem('todos')) || [];
   }
 
   addItemData(value) {
     let newItem = new Item(value);
     this.todos.push(newItem);
 
-    this.onTodoListChanged(this.todos)
+    // this.onTodoListChanged(this.todos)
+    this._commit(this.todos)
   }
 
   editItemData(id, updatedText) {
@@ -28,12 +28,15 @@ class Model {
   deleteItemData(id) {
     this.todos = this.todos.filter((item) => item.id !== id);
 
-    this.onTodoListChanged(this.todos)
-    // this._commit(this.todos)
+    // this.onTodoListChanged(this.todos)
+    this._commit(this.todos)
   }
 
   toggleItem(id) {
-    this.todos[id].checked = !this.todos[id].checked
+    // this.todos[id].checked = !this.todos[id].checked;
+    this.todos = this.todos.map((todo) => 
+      todo.id === id ? { id: todo.id, content: todo.content, checked: !todo.checked} : todo,
+    )
   }
 
   bindTodoListChanged(callback) {
